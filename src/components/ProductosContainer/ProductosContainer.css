@@ -7,4 +7,10 @@ body {
     height: auto;
     background-image: url(../ProductosContainer/Fondo.jpg);
   }
- 
+ .di{
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: white;
+  padding-top: 20px;
+ }

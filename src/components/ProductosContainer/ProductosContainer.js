@@ -1,54 +1,35 @@
 import "../ProductosContainer/ProductosContainer.css";
 import { useState, useEffect } from "react";
+import { getProducts, getProductsByCategory } from asyncMock;
 import ProductosList from "../ProductosList/ProductosList";
+import { useParams } from "react-router-dom";
 
-const productos = [
-  {
-    id: "1",
-    title: "Straps",
-    text: "Straps con aperturas en los dedos, para mejorar el agarre seas el ejercicio que realices.",
-    img: "../images/straps.jpeg",
-  },
-  {
-    id: "2",
-    title: "Guantes",
-    text: " Guantes de boxeo profecionales, variedad en colores",
-    img: "../images/guante.jpeg",
-  },
-  {
-    id: "3",
-    title: "Vendas",
-    text: "Vendas de varios colores, para una mayor estabilidad en la muñeca",
-    img: "../images/vendas.jpeg",
-  },
-  {
-    id: "4",
-    title: "Colchoneta yoga",
-    text: "Colchoneta recofortable de yoga",
-    img: "../images/colchoneta.jpeg",
-  },
-];
-const getProductos = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(productos);
-    }, 3000);
-  });
-};
-const ProductosContainer = () => {
+export const ProductosContainer = () => {
   const [productos, setProductos] = useState([]);
+  const { categoriaId }=useParams ()
   useEffect(() => {
-    getProductos()
-      .then((response) => {
+    if(categoryId) {
+      getProductsByCategory(categoriaId)
+      .then (response=>{
+        setProductos(response)
+      })
+
+    } else{
+      getProductos()
+      .then(response => {
         setProductos(response);
       })
       .catch((error) => {
         console.log(error);
       });
-  });
+
+    }
+    
+      
+  }, [categoriaId]);
 
   return (
-    <div>
+    <div className="di">
       <h1>NUESTROS PRODUCTOS</h1>
       <ProductosList productos={productos} />
     </div>
